@@ -6,107 +6,72 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+/* Tenemos que importar react y react-native */
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { Text, View } from 'react-native';
+//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+//importamos la libreria iconos
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { HomeStack } from '../dmm52/src/navigator/stacks/HomeStack';
+import { CategoriesStack } from '../dmm52/src/navigator/stacks/CategoriesStack';
+import { NewsStack } from '../dmm52/src/navigator/stacks/NewsStack';
+import { LoginStack } from '../dmm52/src/navigator/stacks/LoginStack';
 
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+function SettingsScreen() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
     </View>
   );
-};
+}
+//const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+export default function App() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Hola desde el D <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Tab.Navigator 
+      activeColor="#ffffff"
+      inactiveColor="#ceff00"
+      barStyle={{ backgroundColor: '#3500d3' }}
+      >
+        <Tab.Screen name="Home" component={HomeStack}
+        options={{
+          tabBarLabel: 'Inicio',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+        />
+        <Tab.Screen name="Categories" component={CategoriesStack} 
+         options={{
+          tabBarLabel: 'Categorias',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="apps" color={color} size={26} />
+          ),
+        }}
+        />
+        <Tab.Screen name="News" component={NewsStack}
+               options={{
+                tabBarLabel: 'Noticias',
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons name="newspaper-variant" color={color} size={26} />
+                ),
+               }}
+        />
+        <Tab.Screen name="Login" component={LoginStack}
+               options={{
+                tabBarLabel: 'Iniciar Session',
+                tabBarIcon: ({ color }) => (
+                  <MaterialCommunityIcons name="login" color={color} size={26} />
+                ),
+               }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
